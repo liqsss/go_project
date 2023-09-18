@@ -134,19 +134,20 @@ func main() {
 	//fmt.Printf("读取到内容:%d\n", x)
 	var wg sync.WaitGroup
 	wg.Add(3)
-	go func() {
-		client.RunShell("ls -al")
-		wg.Done()
-	}()
 
 	go func() {
-		client.UploadFile("D:/db_novabot.sql", "/root/novabot/nova.sql")
+		client.RunShell("ls -al")
 		wg.Done()
 	}()
 	go func() {
 		client.DownloadFile("/root/novabot/test.go", "D:/test3.go")
 		wg.Done()
 	}()
+	go func() {
+		client.UploadFile("D:/test.go", "/root/novabot/test.go")
+		wg.Done()
+	}()
 
 	wg.Wait()
+	log.Println("goroutines are all finished")
 }
