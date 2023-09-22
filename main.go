@@ -94,8 +94,8 @@ func (cliConf *ClientConfig) UploadFile(src, dst string) string {
 		log.Fatalln("open local file error")
 	}
 	defer func() {
-		defer dstFile.Close()
-		defer srcFile.Close()
+		dstFile.Close()
+		srcFile.Close()
 	}()
 
 	dstFile.ReadFrom(srcFile)
@@ -113,8 +113,8 @@ func (cliConf *ClientConfig) DownloadFile(src, dst string) string {
 		log.Fatalln("file create error:", e)
 	}
 	defer func() {
-		defer srcFile.Close()
-		defer dstFile.Close()
+		srcFile.Close()
+		dstFile.Close()
 	}()
 
 	if _, err1 := srcFile.WriteTo(dstFile); err1 != nil {
@@ -136,7 +136,7 @@ func main() {
 	wg.Add(3)
 
 	go func() {
-		client.RunShell("ls -al")
+		client.RunShell("ls")
 		wg.Done()
 	}()
 	go func() {
