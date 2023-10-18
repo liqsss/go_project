@@ -179,29 +179,29 @@ func copyGDCScript(control *ClientConfig) {
 }
 
 func upgrade(control *ClientConfig) {
-	log.Println("开始手动OTA升级...")
+	println("开始手动OTA升级...")
 
 	//control.reconnect()
 	control.UploadFile("d:/lfimvpfactory20231014475.deb", "/root/lfimvpfactory20231014475.deb")
-	print("文件上传成功,开始解压文件...")
+	println("文件上传成功,开始解压文件...")
 	control.RunShell("dpkg -x lfimvpfactory20231014475.deb novabot.new")
-	print("文件解压完成，等待重启...\n")
+	println("文件解压完成，等待重启...")
 	control.RunShell("ls")
 	control.RunShell("cp /root/novabot.new/scripts/run_ota.sh /userdata/ota/")
 	control.RunShell("echo 1 > /userdata/ota/upgrade.txt")
 	control.RunShell("cat /userdata/ota/upgrade.txt")
 	time.Sleep(5 * time.Second)
 
-	print("远程命令执行完成，开始重启机器")
+	println("远程命令执行完成，开始重启机器")
 	control.RunShell("reboot -f")
-	print("等待30s后继续执行数据清理...")
+	println("等待30s后继续执行数据清理...")
 	time.Sleep(30 * time.Second)
 	control.Reconnect()
 	control.RunShell("rm -rf /root/lfimvpfactory20231014475.deb")
 	control.RunShell("rm -rf /root/novabot.bak")
 	control.RunShell("cat /userdata/ota/upgrade.txt")
 	control.RunShell("ls -alh /root/novabot/")
-	time.Sleep(40)
+	time.Sleep(40 * time.Second)
 	checkFile(control)
 }
 
