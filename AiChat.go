@@ -14,7 +14,7 @@ func main() {
 	ctx := context.Background()
 
 	req := gogpt.CompletionRequest{
-		Model:     gogpt.CodexCodeCushman001,
+		Model:     gogpt.GPT3Dot5Turbo,
 		MaxTokens: 1000,
 		Prompt:    "hello ",
 	}
