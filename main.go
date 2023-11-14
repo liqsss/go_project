@@ -287,7 +287,7 @@ func factory_tools() {
 	var x int64
 	fmt.Println("请输入操作选项:")
 	fmt.Scan(&x)
-	func_name := switch_dict[x]
+	func_name := switch_dict[int64(x)]
 	func_name(client)
 
 }
