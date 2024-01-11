@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/duke-git/lancet/v2/netutil"
 	"github.com/duke-git/lancet/v2/slice"
@@ -22,10 +21,12 @@ func mqtt_pub(pubtopic string, subtopic string, msg string) {
 	if token := client.Connect(); token.Wait() && token.Error() != nil {
 		log.Fatalln(token.Error())
 	}
-	data, err := json.Marshal(msg)
+
+	/*data, err := json.Marshal(msg)
 	if err != nil {
 		log.Fatalln("msg is not json format")
-	}
+		return
+	}*/
 	var ch chan int
 	ch = make(chan int, 1)
 
@@ -38,7 +39,7 @@ func mqtt_pub(pubtopic string, subtopic string, msg string) {
 		}()
 		ch <- 1
 	})
-	if token := client.Publish(pubtopic, 1, false, data); token.Wait() && token.Error() != nil {
+	if token := client.Publish(pubtopic, 1, false, string(msg)); token.Wait() && token.Error() != nil {
 		log.Fatalln("publish msg error")
 	}
 	log.Print("数据发送完成!!!!")
